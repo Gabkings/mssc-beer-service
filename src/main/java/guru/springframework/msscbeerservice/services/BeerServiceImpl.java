@@ -9,14 +9,26 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
 @Slf4j
 public class BeerServiceImpl implements BeerService {
-    private BeerRepository beerRepository;
-    private BeerMapper beerMapper;
+    private final BeerRepository beerRepository;
+    private final BeerMapper beerMapper;
+
+    @Override
+    public List<BeerDto> getAllBeers() {
+        List<Beer> beers = (List<Beer>) beerRepository.findAll();
+
+        List<BeerDto> beerDtoList = new ArrayList();
+        beers.forEach(beer -> beerDtoList.add(beerMapper.beerToBeerDto(beer)));
+
+        return beerDtoList;
+    }
 
     @Override
     public BeerDto getBeerById(UUID beerId) {
