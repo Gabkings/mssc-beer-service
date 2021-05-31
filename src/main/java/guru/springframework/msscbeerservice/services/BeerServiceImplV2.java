@@ -31,13 +31,14 @@ public class BeerServiceImplV2 implements BeerServiceV2 {
     }
 
     @Override
-    public BeerDto updateBeer(UUID beerId, BeerDto dto) {
-        Beer beer = beerRepository.findById(beerId).orElseThrow();
-        beer.setBeerName(dto.getBeerName());
-        beer.setBeerStyle(dto.getBeerStyle().name());
-        beer.setPrice(dto.getPrice());
-        beer.setUpc(dto.getUpc());
-        beer.setQuantityToBrew(dto.getQuantityOnHand());
+    public BeerDto updateBeer(UUID beerId, BeerDto beerDto) {
+        Beer beer = beerRepository.findById(beerId).orElseThrow(NotFoundException::new);
+
+        beer.setBeerName(beerDto.getBeerName());
+        beer.setBeerStyle(beerDto.getBeerStyle().name());
+        beer.setPrice(beerDto.getPrice());
+        beer.setUpc(beerDto.getUpc());
+
         return beerMapper.beerToBeerDto(beerRepository.save(beer));
     }
 }
