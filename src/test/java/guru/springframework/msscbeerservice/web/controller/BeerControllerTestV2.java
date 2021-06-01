@@ -37,9 +37,9 @@ class BeerControllerTestV2 {
     @Test
     void getBeerById() throws Exception {
 
-        given(beerService.getBeerById(any())).willReturn(getValidBeerDto());
+        given(beerService.getBeerById(UUID.fromString("026cc3c8-3a0c-4083-a05b-e908048c1b08"), false)).willReturn(getValidBeerDto());
 
-        mockMvc.perform(get("/api/v2/beer/" + UUID.randomUUID().toString()).accept(MediaType.APPLICATION_JSON))
+        mockMvc.perform(get("/api/v2/beer/" + "026cc3c8-3a0c-4083-a05b-e908048c1b08".toString()).accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
 
     }
