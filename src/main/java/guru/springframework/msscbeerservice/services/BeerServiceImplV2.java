@@ -99,7 +99,7 @@ public class BeerServiceImplV2 implements BeerServiceV2 {
         return beerPagedList;
     }
 
-    @Cacheable(cacheNames = "beerCache", key = "#upc", condition = "#showInventoryOnHand == false ")
+    @Cacheable(cacheNames = "beerUpcCache", key = "#upc", condition = "#showInventoryOnHand == false ")
     @Override
     public BeerDto getBeerByUpc(String upc, Boolean showInventoryOnHand) {
         System.out.println("I was called");

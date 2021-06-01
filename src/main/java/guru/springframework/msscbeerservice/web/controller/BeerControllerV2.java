@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/v2/beer")
+@RequestMapping("/api/v2/")
 @RequiredArgsConstructor
 public class BeerControllerV2 {
 
@@ -23,7 +23,7 @@ public class BeerControllerV2 {
 
     private final BeerServiceV2 beerService;
 
-    @GetMapping("/")
+    @GetMapping(produces = { "application/json" }, path = "beer")
     public ResponseEntity<BeerPagedList> listBeers(@RequestParam(value = "pageNumber", required = false) Integer pageNumber,
                                                    @RequestParam(value = "pageSize", required = false) Integer pageSize,
                                                    @RequestParam(value = "beerName", required = false) String beerName,
@@ -31,7 +31,7 @@ public class BeerControllerV2 {
                                                    @RequestParam(value = "showInventoryOnHand", required = false) Boolean showInventoryOnHand){
 
         if (showInventoryOnHand == null) {
-            showInventoryOnHand = true;
+            showInventoryOnHand = false;
         }
 
         if (pageNumber == null || pageNumber < 0){
@@ -47,7 +47,7 @@ public class BeerControllerV2 {
         return new ResponseEntity<>(beerList, HttpStatus.OK);
     }
 
-    @GetMapping("/{beerId}")
+    @GetMapping("beer/{beerId}")
     public ResponseEntity<BeerDto> getBeerById(@PathVariable("beerId") UUID beerId,
                                                @RequestParam(value = "showInventoryOnHand", required = false) Boolean showInventoryOnHand){
         if (showInventoryOnHand == null) {
@@ -57,7 +57,7 @@ public class BeerControllerV2 {
         return new ResponseEntity<>( beerService.getBeerById(beerId, showInventoryOnHand), HttpStatus.OK);
     }
 
-    @GetMapping("/upc/{upc}")
+    @GetMapping("beer/beerUpc/{upc}")
     public ResponseEntity<BeerDto> getBeerByUpc(@PathVariable("upc") String upc, @RequestParam(value = "showInventoryOnHand", required = false) Boolean showInventoryOnHand){
         if (showInventoryOnHand == null) {
             showInventoryOnHand = false;
@@ -65,7 +65,7 @@ public class BeerControllerV2 {
         return new ResponseEntity<>(beerService.getBeerByUpc(upc, showInventoryOnHand), HttpStatus.OK);
     }
 
-    @PostMapping("/")
+    @PostMapping(path = "beer")
     public ResponseEntity<BeerDto> saveNewBeer(@RequestBody BeerDto dto){
         return new ResponseEntity<>(beerService.addNewBeer(dto), HttpStatus.CREATED);
     }
